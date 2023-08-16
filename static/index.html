@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Depression Detector</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">
+      <div class="min-h-screen h-full bg-teal-700 text-white font-mono">
+        <div
+          class="h-screen flex flex-col items-center justify-center max-w-3xl mx-auto"
+        >
+          <span class="w-full mb-2">Fill out the form below</span>
+          <span class="w-full mb-2 text-yellow-500" v-if="result.status"
+            >Status : {{result.message}}</span
+          >
+          <div class="border border-slate-300 rounded-lg w-full p-6">
+            <!-- AGE --->
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <label for="age col-span-1">Age</label>
+              <input
+                class="col-span-3 py-1.5 px-3 rounded-full border border-slate-200 bg-transparent text-slate-100 placeholder:text-slate-200"
+                type="number"
+                name="age"
+                placeholder="Enter your age"
+                v-model="formData.Age"
+              />
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <label for="age col-span-1">Weight</label>
+              <input
+                class="col-span-3 py-1.5 px-3 rounded-full border border-slate-200 bg-transparent text-slate-100 placeholder:text-slate-200"
+                type="number"
+                name="weight"
+                placeholder="Enter your weight (kg)"
+                v-model="formData.Weight"
+              />
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <label for="age col-span-1">Height</label>
+              <input
+                class="col-span-3 py-1.5 px-3 rounded-full border border-slate-200 bg-transparent text-slate-100 placeholder:text-slate-200"
+                type="number"
+                name="height"
+                placeholder="Enter your height (ft)"
+                v-model="formData.Height"
+              />
+            </div>
+
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <label for="age col-span-1">IQ Score</label>
+              <input
+                class="col-span-3 py-1.5 px-3 rounded-full border border-slate-200 bg-transparent text-slate-100 placeholder:text-slate-200"
+                type="number"
+                name="iq"
+                placeholder="Enter your IQ Score"
+                v-model="formData.IQScore"
+              />
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Exercise</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="exercise-yes"
+                    type="radio"
+                    name="exercise"
+                    value="0"
+                    v-model="formData.ExerciseDone"
+                  />
+                  <label for="exercise-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="exercise-no"
+                    type="radio"
+                    name="exercise"
+                    value="1"
+                    v-model="formData.ExerciseDone"
+                  />
+                  <label for="exercise-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span for="age">Is Healthy</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="healthy-yes"
+                    type="radio"
+                    name="healthy"
+                    value="0"
+                    v-model="formData.isHealthy"
+                  />
+                  <label for="healthy-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="healthy-no"
+                    type="radio"
+                    name="healthy"
+                    value="1"
+                    v-model="formData.isHealthy"
+                  />
+                  <label for="healthy-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Gender</span>
+              <div class="flex gap-4">
+                <div class="flex items-center">
+                  <input
+                    class="mr-3"
+                    id="gender-male"
+                    type="radio"
+                    name="gender"
+                    value="0"
+                    v-model="formData.Sex"
+                  />
+                  <label for="gender-male">Male</label>
+                </div>
+                <div class="flex items-center">
+                  <input
+                    class="mr-3"
+                    id="gender-female"
+                    type="radio"
+                    name="gender"
+                    value="1"
+                    v-model="formData.Sex"
+                  />
+                  <label for="gender-female">Female</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Lives With Family</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="with-family-yes"
+                    type="radio"
+                    name="with-family"
+                    value="0"
+                    v-model="formData.LF"
+                  />
+                  <label for="with-family-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="with-family-no"
+                    type="radio"
+                    name="with-family"
+                    value="1"
+                    v-model="formData.LF"
+                  />
+                  <label for="with-family-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Has Peer Pressure</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="pressure-yes"
+                    type="radio"
+                    name="pressure"
+                    value="0"
+                    v-model="formData.PP"
+                  />
+                  <label for="pressure-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="pressure-no"
+                    type="radio"
+                    name="pressure"
+                    value="1"
+                    v-model="formData.PP"
+                  />
+                  <label for="pressure-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Has Tragic Past Experience</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="experience-yes"
+                    type="radio"
+                    name="experience"
+                    value="0"
+                    v-model="formData.PH"
+                  />
+                  <label for="experience-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="experience-no"
+                    type="radio"
+                    name="experience"
+                    value="1"
+                    v-model="formData.PH"
+                  />
+                  <label for="experience-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <span>Is A Smoker</span>
+              <div class="flex gap-4">
+                <div>
+                  <input
+                    class="mr-3"
+                    id="somker-yes"
+                    type="radio"
+                    name="somker"
+                    value="0"
+                    v-model="formData.S"
+                  />
+                  <label for="somker-yes">Yes</label>
+                </div>
+                <div>
+                  <input
+                    class="mr-3"
+                    id="somker-no"
+                    type="radio"
+                    name="somker"
+                    value="1"
+                    v-model="formData.S"
+                  />
+                  <label for="somker-no">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6 w-full grid grid-cols-4 grid-rows-1 items-center">
+              <label for="age col-span-1">Education</label>
+              <select
+                class="col-span-3 py-1.5 px-3 rounded-full border border-slate-200 bg-transparent text-slate-100 placeholder:text-slate-200"
+                name="eduction"
+                v-model="formData.CurEdu"
+              >
+                <option class="bg-slate-600" value="0">Polytechnics</option>
+                <option class="bg-slate-600" value="1">
+                  State Univeristies
+                </option>
+                <option class="bg-slate-600" value="2">
+                  Federal Univeristies
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-6 w-full flex items-center justify-end px-4">
+            <button
+              @click="handle_submit"
+              :disabled="loading"
+              class="bg-[#1A846B] py-2.5 px-10 rounded-full hover:bg-teal-600"
+              type="submit"
+            >
+              Check
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive } = Vue;
+
+      createApp({
+        setup() {
+          const formData = ref({
+            Age: null,
+            Weight: null,
+            Height: null,
+            IQScore: null,
+            ExerciseDone: null,
+            isHealthy: null,
+            Sex: null,
+            LF: null,
+            PP: null,
+            PH: null,
+            S: null,
+            CurEdu: null,
+            BMIbin: null,
+          });
+
+          const loading = ref(false);
+
+          const result = ref({ status: false, message: "" });
+
+          const calculate_bmi = (height, weight) => {
+            const bmi = weight / (height * 0.3048) ** 2;
+
+            if (bmi < 18.5) return 0;
+            if (bmi < 24.9) return 1;
+            if (bmi < 29.9) return 2;
+            if (bmi < 34.9) return 3;
+            if (bmi < 39.9) return 4;
+          };
+
+          const handle_submit = async () => {
+            result.value.status = false;
+            loading.value = true;
+
+            formData.value.BMIbin = calculate_bmi(
+              formData.value.Height,
+              formData.value.Weight
+            );
+
+            const res = await fetch("http://localhost:8000/predict", {
+              method: "POST",
+              body: JSON.stringify(formData.value),
+              headers: { "content-type": "application/json" },
+            });
+
+            const predict = await res.json();
+
+            if (!predict || !predict.status === "SUCCESS") {
+              return;
+            }
+
+            loading.value = false;
+            result.value.status = true;
+            result.value.message = predict.result;
+          };
+
+          return {
+            formData,
+            handle_submit,
+            loading,
+            result,
+            calculate_bmi,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
