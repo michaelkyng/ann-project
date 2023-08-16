@@ -324,11 +324,14 @@
               formData.value.Weight
             );
 
-            const res = await fetch("http://localhost:8000/predict", {
-              method: "POST",
-              body: JSON.stringify(formData.value),
-              headers: { "content-type": "application/json" },
-            });
+            const res = await fetch(
+              "https://ann-project-production.up.railway.app",
+              {
+                method: "POST",
+                body: JSON.stringify(formData.value),
+                headers: { "content-type": "application/json" },
+              }
+            );
 
             const predict = await res.json();
 
